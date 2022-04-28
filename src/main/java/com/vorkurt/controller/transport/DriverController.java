@@ -1,24 +1,24 @@
 package com.vorkurt.controller.transport;
 
-import com.vorkurt.entity.transport.driver.request.DriverRequest;
-import com.vorkurt.entity.transport.driver.request.RequstInDriver;
-import com.vorkurt.service.transport.DriverService;
-import com.vorkurt.entity.transport.driver.Driver;
-import com.vorkurt.entity.transport.driver.request.DriverResponse;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.vorkurt.entity.transport.driver.Driver;
+import com.vorkurt.entity.transport.driver.request.DriverRequest;
+import com.vorkurt.entity.transport.driver.request.DriverResponse;
+import com.vorkurt.entity.transport.driver.request.RequstInDriver;
+import com.vorkurt.service.transport.DriverService;
 
 @RestController
 @RequestMapping("/api/transport/driver")
+@CrossOrigin
 public class DriverController {
     Logger logger = LoggerFactory.getLogger(DriverController.class);
 
@@ -58,6 +58,7 @@ public class DriverController {
 
     @GetMapping({"getEndWith"})
     public List<DriverResponse> getDataEndsWith(@RequestParam String stringMatch) {
+
         return driverService.getAllDriverEndWith(stringMatch);
     }
 
@@ -76,6 +77,8 @@ public class DriverController {
 
     @GetMapping
     public List<DriverResponse> getAllDrivers() {
+        logger.info("Call Service");
+        logger.info("Get all drivers");
         return driverService.getAllDrivers();
     }
 
@@ -86,6 +89,6 @@ public class DriverController {
 
     @DeleteMapping()
     public String delete(@RequestParam long id) {
-        return "DELETEdadadads";
+        return "Test";
     }
 }
