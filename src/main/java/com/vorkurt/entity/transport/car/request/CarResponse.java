@@ -7,7 +7,7 @@ public class CarResponse extends CarBase {
     public CarResponse(Car carDAO){
         this.setKgPerWeight(carDAO.getKgPerWeight());
         this.setReservoirFuel(carDAO.getReservoirFuel());
-        this.setPalateNumber(carDAO.getPalateNumber());
+        this.setPlateNumber(carDAO.getPlateNumber());
         this.setId(carDAO.getId());
     }
 }

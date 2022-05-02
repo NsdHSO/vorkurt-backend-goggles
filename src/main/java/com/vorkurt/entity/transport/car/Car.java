@@ -2,13 +2,12 @@ package com.vorkurt.entity.transport.car;
 
 import com.vorkurt.entity.transport.car.base.CarBase;
 import com.vorkurt.entity.transport.driver.Driver;
+import com.vorkurt.entity.transport.pack.Pack;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -20,9 +19,14 @@ public class Car extends CarBase {
     @JoinColumn(name = "driver_id")
     private Driver driver;
 
+    @Column
+    @OneToMany(mappedBy= "carId")
+    private List<Pack> packs;
+
+
     public Car (Car car){
         this.setReservoirFuel(car.getReservoirFuel());
-        this.setPalateNumber(car.getPalateNumber());
+        this.setPlateNumber(car.getPlateNumber());
         this.setDriver(car.getDriver());
         this.setKgPerWeight(car.getKgPerWeight());
     }

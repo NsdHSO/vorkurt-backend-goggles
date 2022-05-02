@@ -21,4 +21,7 @@ public abstract class BaseAddress {
 
     @Column
     private String number;
+
+    @Column
+    String postalCode;
 }

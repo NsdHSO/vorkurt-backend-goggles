@@ -3,6 +3,8 @@ package com.vorkurt.service.transport;
 import com.core.exception.EntityNotFound;
 import com.vorkurt.entity.address.Address;
 import com.vorkurt.entity.transport.car.request.CreateCarRequest;
+import com.vorkurt.entity.transport.pack.Pack;
+import com.vorkurt.entity.transport.pack.request.base.Cosignee;
 import com.vorkurt.repository.address.AddressRepository;
 import com.vorkurt.entity.transport.car.Car;
 import com.vorkurt.entity.transport.driver.Driver;
@@ -10,6 +12,7 @@ import com.vorkurt.entity.transport.driver.request.DriverRequest;
 import com.vorkurt.entity.transport.driver.request.DriverResponse;
 import com.vorkurt.repository.transport.car.CarRepository;
 import com.vorkurt.repository.transport.driver.DriverRepository;
+import com.vorkurt.repository.transport.pack.PackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +34,9 @@ public class DriverService {
     @Autowired
     CarRepository carRepository;
 
+    @Autowired
+    PackRepository packRepository;
+
     public Driver createNewDriver(DriverRequest request) {
         Driver newDriver = new Driver(request);
         Address newDriverAddress = new Address();
@@ -48,9 +54,23 @@ public class DriverService {
             ) {
                 Car car = new Car();
                 car.setKgPerWeight(carRequest.getKgPerWeight());
-                car.setPalateNumber(carRequest.getPalateNumber());
+                car.setPlateNumber(carRequest.getPlateNumber());
                 car.setReservoirFuel(carRequest.getReservoirFuel());
                 car.setDriver(newDriver);
+
+                if (carRequest.getPacks() != null) {
+                    for (Pack pack : carRequest.getPacks()) {
+                        pack.setCosignee(
+                                new Cosignee(pack.getCosignee().getApartment(),
+                                        pack.getCosignee().getStreet(),
+                                        pack.getCosignee().getCity(),
+                                        pack.getCosignee().getNumber(),
+                                        pack.getCosignee().getPostalCode()));
+                        pack.setCarId(car);
+                        this.packRepository.save(pack);
+                    }
+                }
+
                 newCar.add(car);
             }
 

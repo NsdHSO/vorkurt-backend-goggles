@@ -15,7 +15,7 @@ public abstract class CarBase {
     private Long Id;
 
     @Column
-    private String palateNumber;
+    private String plateNumber;
 
     @Column
     private String reservoirFuel;

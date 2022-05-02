@@ -1,25 +1,27 @@
 package com.vorkurt.entity.transport.pack;
 
-import com.vorkurt.entity.transport.pack.tables.PackAddress;
+import com.vorkurt.entity.transport.car.Car;
+import com.vorkurt.entity.transport.pack.request.base.Cosignee;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
 
+@Table(name = "packs")
 @Entity
 @Data
-@Table(name = "packages")
 @NoArgsConstructor
-@EnableAutoConfiguration
 public class Pack {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne()
-    @JoinColumn(name = "pack_id")
-    private PackAddress packAddress;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cosignee_address_id")
+    private Cosignee cosignee;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "car_id")
+    private Car carId;
 }
