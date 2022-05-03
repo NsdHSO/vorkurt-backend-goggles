@@ -3,16 +3,13 @@ package com.vorkurt.entity.transport.pack.response;
 import com.vorkurt.entity.transport.pack.Pack;
 import com.vorkurt.entity.transport.pack.format.FormatPck;
 import com.vorkurt.entity.transport.pack.request.PackAddress;
-import com.vorkurt.entity.transport.pack.request.base.Cosignee;
+import com.vorkurt.entity.transport.pack.request.base.Consignee;
 import lombok.Data;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 public class PackResponse {
 
-    private Cosignee consignee;
+    private Consignee consignee;
 
     private String note;
 

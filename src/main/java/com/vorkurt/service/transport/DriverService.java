@@ -8,7 +8,7 @@ import com.vorkurt.entity.transport.pack.format.FormatPck;
 import com.vorkurt.entity.transport.pack.refound.RefoundType;
 import com.vorkurt.entity.transport.pack.request.DescriptionImplementation;
 import com.vorkurt.entity.transport.pack.request.PackAddress;
-import com.vorkurt.entity.transport.pack.request.base.Cosignee;
+import com.vorkurt.entity.transport.pack.request.base.Consignee;
 import com.vorkurt.repository.address.AddressRepository;
 import com.vorkurt.entity.transport.car.Car;
 import com.vorkurt.entity.transport.driver.Driver;
@@ -91,13 +91,13 @@ public class DriverService {
                         // Verified if user put the consignee
                         if(pack.getConsignee() !=null) {
                             pack.setConsignee(
-                                    new Cosignee(pack.getConsignee().getApartment(),
+                                    new Consignee(pack.getConsignee().getApartment(),
                                             pack.getConsignee().getStreet(),
                                             pack.getConsignee().getCity(),
                                             pack.getConsignee().getNumber(),
                                             pack.getConsignee().getPostalCode()));
                         }else{
-                            pack.setConsignee(new Cosignee());
+                            pack.setConsignee(new Consignee());
                         }
 //                        pack.setCarId(car);
 

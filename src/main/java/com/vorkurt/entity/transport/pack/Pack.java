@@ -7,7 +7,7 @@ import com.vorkurt.entity.transport.pack.format.FormatPck;
 import com.vorkurt.entity.transport.pack.refound.RefoundType;
 import com.vorkurt.entity.transport.pack.request.DescriptionImplementation;
 import com.vorkurt.entity.transport.pack.request.PackAddress;
-import com.vorkurt.entity.transport.pack.request.base.Cosignee;
+import com.vorkurt.entity.transport.pack.request.base.Consignee;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -28,7 +28,7 @@ public class Pack {
 
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "cosignee_address_id")
-    private Cosignee consignee;
+    private Consignee consignee;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "car_id")
