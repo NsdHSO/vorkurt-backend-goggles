@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "refound_type")
 @NoArgsConstructor
 @Data
-public class    RefoundType {
+public class RefoundType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
