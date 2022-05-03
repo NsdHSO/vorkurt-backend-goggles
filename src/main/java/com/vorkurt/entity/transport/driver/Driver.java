@@ -34,10 +34,10 @@ public class Driver extends BaseDriver {
         this.setAddress(driverReq.getAddress());
     }
 
-    public void addCars(Car car){
+    public void addCars(List<Car> car){
         if(this.cars == null ){
             cars = new ArrayList<>();
         }
-        cars.add(car);
+        cars = car;
     }
 }

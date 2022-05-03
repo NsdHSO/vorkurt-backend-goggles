@@ -6,6 +6,9 @@ import com.vorkurt.entity.transport.pack.request.PackAddress;
 import com.vorkurt.entity.transport.pack.request.base.Cosignee;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Data
 public class PackResponse {
 
@@ -18,6 +21,8 @@ public class PackResponse {
     private PackAddress packageAddress;
 
     private boolean repayment;
+
+
     public PackResponse(Pack pack){
         this.setConsignee(pack.getConsignee());
         this.setNote(pack.getDescription().getNote());

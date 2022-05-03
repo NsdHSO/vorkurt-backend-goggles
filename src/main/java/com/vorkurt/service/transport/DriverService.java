@@ -163,10 +163,10 @@ public class DriverService {
 
                     }
                 }
-                car.setPacks(newPack);
                 newCar.add(car);
-                newDriver.addCars(car);
+                car.setPacks(newPack);
             }
+            newDriver.addCars(newCar);
             carRepository.saveAll(newCar);
         }
         return newDriver;

@@ -51,4 +51,5 @@ public class Pack {
     @OneToOne
     @JoinColumn(name = "refound_type")
     private RefoundType refoundType;
+
 }
