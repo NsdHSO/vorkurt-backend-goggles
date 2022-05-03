@@ -12,7 +12,7 @@ public abstract class CarBase {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column
     private String plateNumber;

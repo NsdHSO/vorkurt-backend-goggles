@@ -1,39 +1,35 @@
-package com.vorkurt.entity.transport.car;
+package com.vorkurt.entity.transport.car.request;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.vorkurt.entity.transport.car.Car;
 import com.vorkurt.entity.transport.car.base.CarBase;
 import com.vorkurt.entity.transport.driver.Driver;
 import com.vorkurt.entity.transport.pack.Pack;
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
 import java.util.List;
-import java.util.Objects;
 
-@Entity
+@Data
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @NoArgsConstructor
-@Table(name = "cars")
-@Data
-public class Car extends CarBase {
+public class CarRequest extends CarBase {
 
-    @ManyToOne()
-    @JoinColumn(name = "driver_id")
-    @JsonBackReference
     private Driver driver;
 
     @Column
     @OneToMany(mappedBy= "carId", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Pack> packs;
 
-
-    public Car (Car car){
+    public CarRequest (Car car){
         this.setReservoirFuel(car.getReservoirFuel());
         this.setPlateNumber(car.getPlateNumber());
         this.setDriver(car.getDriver());
         this.setKgPerWeight(car.getKgPerWeight());
 
     }
-
 }

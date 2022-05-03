@@ -4,6 +4,10 @@ import com.core.exception.EntityNotFound;
 import com.vorkurt.entity.address.Address;
 import com.vorkurt.entity.transport.car.request.CreateCarRequest;
 import com.vorkurt.entity.transport.pack.Pack;
+import com.vorkurt.entity.transport.pack.format.FormatPck;
+import com.vorkurt.entity.transport.pack.refound.RefoundType;
+import com.vorkurt.entity.transport.pack.request.DescriptionImplementation;
+import com.vorkurt.entity.transport.pack.request.PackAddress;
 import com.vorkurt.entity.transport.pack.request.base.Cosignee;
 import com.vorkurt.repository.address.AddressRepository;
 import com.vorkurt.entity.transport.car.Car;
@@ -13,6 +17,10 @@ import com.vorkurt.entity.transport.driver.request.DriverResponse;
 import com.vorkurt.repository.transport.car.CarRepository;
 import com.vorkurt.repository.transport.driver.DriverRepository;
 import com.vorkurt.repository.transport.pack.PackRepository;
+import com.vorkurt.repository.transport.pack.address.PackageAddressRepository;
+import com.vorkurt.repository.transport.pack.description.DescriptionRepository;
+import com.vorkurt.repository.transport.pack.format.FormatPckRepository;
+import com.vorkurt.repository.transport.pack.refound.RefoundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,11 +45,28 @@ public class DriverService {
     @Autowired
     PackRepository packRepository;
 
+    @Autowired
+    DescriptionRepository descriptionRepository;
+
+    @Autowired
+    PackageAddressRepository packageAddressRepository;
+
+    @Autowired
+    FormatPckRepository formatPckRepository;
+
+    @Autowired
+    RefoundRepository refoundRepository;
+
+    /**
+     * Added new driver with packages and returned.
+     * @param request need at Driver Request
+     * @return new driver .
+     */
     public Driver createNewDriver(DriverRequest request) {
         Driver newDriver = new Driver(request);
         Address newDriverAddress = new Address();
         List<Car> newCar = new ArrayList<>();
-
+        List<Pack> newPack;
         newDriverAddress.setStreet(request.getAddress().getStreet());
         newDriverAddress.setCity(request.getAddress().getCity());
 
@@ -57,29 +82,93 @@ public class DriverService {
                 car.setPlateNumber(carRequest.getPlateNumber());
                 car.setReservoirFuel(carRequest.getReservoirFuel());
                 car.setDriver(newDriver);
+                newPack = new ArrayList<>();
 
+                // Verified if user put the packs
                 if (carRequest.getPacks() != null) {
                     for (Pack pack : carRequest.getPacks()) {
-                        pack.setCosignee(
-                                new Cosignee(pack.getCosignee().getApartment(),
-                                        pack.getCosignee().getStreet(),
-                                        pack.getCosignee().getCity(),
-                                        pack.getCosignee().getNumber(),
-                                        pack.getCosignee().getPostalCode()));
-                        pack.setCarId(car);
+
+                        // Verified if user put the consignee
+                        if(pack.getConsignee() !=null) {
+                            pack.setConsignee(
+                                    new Cosignee(pack.getConsignee().getApartment(),
+                                            pack.getConsignee().getStreet(),
+                                            pack.getConsignee().getCity(),
+                                            pack.getConsignee().getNumber(),
+                                            pack.getConsignee().getPostalCode()));
+                        }else{
+                            pack.setConsignee(new Cosignee());
+                        }
+//                        pack.setCarId(car);
+
+                        // Verified if user put description
+                        if (pack.getDescription() != null) {
+                            pack.setDescription(pack.getDescription());
+                        } else {
+                            pack.setDescription(new DescriptionImplementation());
+                        }
+
+                        // Verified if user put the type of pack
+                        if(pack.getTypeBox() != null){
+                            FormatPck auxFrmt = new FormatPck();
+                            auxFrmt.setTypePck(pack.getTypeBox().getTypePck());
+
+                            // Verified if user put the type of pack at box
+                            if(pack.getTypeBox().isBox()){
+                                auxFrmt.setBox(true);
+                                auxFrmt.setEnvelop(false);
+                            }
+                            // Verified if user put the type of pack at envelop type
+                            else  if(pack.getTypeBox().isEnvelop()){
+                                auxFrmt.setBox(false);
+                                auxFrmt.setEnvelop(true);
+                            }
+                            pack.setTypeBox(auxFrmt);
+                        }else{
+                            pack.setTypeBox(new FormatPck());
+                        }
+
+                        // Verified is true repayment
+                        if(pack.isRepayment()){
+                            pack.setRepayment(pack.isRepayment());
+                        }
+                        else{
+                            pack.setRepayment(false);
+                        }
+
+                        // Verified exists address
+                        if(pack.getPackAddress() !=null){
+                            pack.setPackAddress(pack.getPackAddress());
+                        }else{
+                            pack.setPackAddress(new PackAddress());
+                        }
+
+                        if(pack.getRefoundType()!=null){
+                            RefoundType refoundType = new RefoundType();
+                            refoundType.setToSender(true);
+                            if(pack.getRefoundType().isToRecipient()){
+                                refoundType.setToRecipient(true);
+                                refoundType.setToSender(false);
+                            }
+                            pack.setRefoundType(refoundType);
+                            this.refoundRepository.save(refoundType);
+                        }
+
+                        // Saved in DB
+                        this.formatPckRepository.save(pack.getTypeBox());
+                        this.descriptionRepository.save(pack.getDescription());
+                        this.packageAddressRepository.save(pack.getPackAddress());
                         this.packRepository.save(pack);
+                        newPack.add(pack);
+
                     }
                 }
-
+                car.setPacks(newPack);
                 newCar.add(car);
+                newDriver.addCars(car);
             }
-
             carRepository.saveAll(newCar);
         }
-
-        newDriver.setCars(newCar);
-
-
         return newDriver;
     }
 
