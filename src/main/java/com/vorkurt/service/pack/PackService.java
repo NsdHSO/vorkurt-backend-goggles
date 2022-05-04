@@ -1,9 +1,7 @@
 package com.vorkurt.service.pack;
 
 import com.vorkurt.entity.transport.pack.Pack;
-import com.vorkurt.entity.transport.pack.refound.RefoundType;
 import com.vorkurt.entity.transport.pack.response.PackResponse;
-import com.vorkurt.repository.address.AddressRepository;
 import com.vorkurt.repository.transport.pack.PackRepository;
 import com.vorkurt.repository.transport.pack.address.PackageAddressRepository;
 import com.vorkurt.repository.transport.pack.description.DescriptionRepository;
@@ -12,7 +10,6 @@ import com.vorkurt.repository.transport.pack.refound.RefoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.server.RequestPath;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -70,24 +67,22 @@ public class PackService {
             addressRepository.save(pacDao.getPackAddress());
         }
         if (objectPack.getRefoundType() != null) {
-            RefoundType refoundType = new RefoundType();
             if (objectPack.getRefoundType().isToRecipient() && pacDao.getRefoundType().isToSender()) {
-                refoundType.setToRecipient(true);
-                refoundType.setToSender(false);
+                pacDao.getRefoundType().setToRecipient(true);
+                pacDao.getRefoundType().setToSender(false);
             } else if (!objectPack.getRefoundType().isToRecipient() && pacDao.getRefoundType().isToSender()) {
-                refoundType.setToRecipient(false);
-                refoundType.setToSender(true);
+                pacDao.getRefoundType().setToRecipient(false);
+                pacDao.getRefoundType().setToSender(true);
 
             } else if (!pacDao.getRefoundType().isToSender() &&  !pacDao.getRefoundType().isToRecipient()){
                 {
-                    refoundType.setToRecipient(false);
-                    refoundType.setToSender(true);
+                    pacDao.getRefoundType().setToRecipient(false);
+                    pacDao.getRefoundType().setToSender(true);
                 }
             } else {
-                refoundType.setToRecipient(false);
-                refoundType.setToSender(true);
+                pacDao.getRefoundType().setToRecipient(false);
+                pacDao.getRefoundType().setToSender(true);
             }
-            pacDao.setRefoundType(refoundType);
             refoundRepository.save(pacDao.getRefoundType());
         }
         if (objectPack.getConsignee() != null) {

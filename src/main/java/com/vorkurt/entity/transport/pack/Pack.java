@@ -1,16 +1,16 @@
 package com.vorkurt.entity.transport.pack;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.vorkurt.entity.transport.car.Car;
+import com.vorkurt.entity.transport.car.base.CarBase;
 import com.vorkurt.entity.transport.pack.format.FormatPck;
 import com.vorkurt.entity.transport.pack.refound.RefoundType;
 import com.vorkurt.entity.transport.pack.request.DescriptionImplementation;
 import com.vorkurt.entity.transport.pack.request.PackAddress;
 import com.vorkurt.entity.transport.pack.request.base.Consignee;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -19,7 +19,7 @@ import javax.persistence.*;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Data
 @NoArgsConstructor
-@ToString
+@ToString()
 public class Pack {
 
     @Id
@@ -31,7 +31,7 @@ public class Pack {
     private Consignee consignee;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "car_id")
+    @JoinColumn(name = "car_id", nullable = false)
     private Car carId;
 
     @OneToOne()

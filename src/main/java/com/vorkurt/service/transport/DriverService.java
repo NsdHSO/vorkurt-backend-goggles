@@ -152,17 +152,22 @@ public class DriverService {
                             }
                             pack.setRefoundType(refoundType);
                             this.refoundRepository.save(refoundType);
+                        }else{
+                            RefoundType refoundType = new RefoundType();
+                            pack.setRefoundType(refoundType);
+                            this.refoundRepository.save(refoundType);
                         }
 
+                        pack.setCarId(car);
                         // Saved in DB
                         this.formatPckRepository.save(pack.getTypeBox());
                         this.descriptionRepository.save(pack.getDescription());
                         this.packageAddressRepository.save(pack.getPackAddress());
                         this.packRepository.save(pack);
                         newPack.add(pack);
-
                     }
                 }
+                car.setNumberPacks(newPack.size());
                 newCar.add(car);
                 car.setPacks(newPack);
             }

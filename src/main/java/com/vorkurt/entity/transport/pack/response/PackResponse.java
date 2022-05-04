@@ -1,5 +1,6 @@
 package com.vorkurt.entity.transport.pack.response;
 
+import com.vorkurt.entity.transport.car.Car;
 import com.vorkurt.entity.transport.pack.Pack;
 import com.vorkurt.entity.transport.pack.format.FormatPck;
 import com.vorkurt.entity.transport.pack.refound.RefoundType;
@@ -22,6 +23,7 @@ public class PackResponse {
 
     private boolean repayment;
 
+    private Car car;
 
     public PackResponse(Pack pack){
         this.setConsignee(pack.getConsignee());
@@ -30,6 +32,7 @@ public class PackResponse {
         this.typeBox = pack.getTypeBox();
         this.repayment = pack.isRepayment();
         this.refoundType = pack.getRefoundType();
+        this.car = pack.getCarId();
     }
 
 }

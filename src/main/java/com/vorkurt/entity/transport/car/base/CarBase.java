@@ -23,4 +23,6 @@ public abstract class CarBase {
     @Column
     private float kgPerWeight;
 
+    @Column
+    private int numberPacks;
 }
