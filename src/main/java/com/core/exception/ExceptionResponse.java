@@ -3,11 +3,9 @@ package com.core.exception;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-import java.net.URI;
-
 @Data
 public class ExceptionResponse {
-    private URI type;
+    private String method;
     private String title;
     private HttpStatus status;
     private String detail;
@@ -18,12 +16,12 @@ public class ExceptionResponse {
         this.status = excetionBuilder.httpStatus;
         this.detail = excetionBuilder.detail;
         this.instancePath = excetionBuilder.instancePath;
-        this.type = excetionBuilder.type;
+        this.method = excetionBuilder.type;
 
     }
 
     public static class ExceptionBuilder{
-        private URI type;
+        private String type;
         private HttpStatus httpStatus;
         private String detail;
         private String title;
@@ -53,7 +51,7 @@ public class ExceptionResponse {
         public ExceptionResponse build(){
             return new ExceptionResponse(this);
         }
-        public ExceptionBuilder URIType(URI URIType){
+        public ExceptionBuilder URIType(String URIType){
             this.type = URIType;
             return this;
         }

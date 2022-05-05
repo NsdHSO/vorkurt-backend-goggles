@@ -18,4 +18,10 @@ public abstract class BaseAddress {
 
     @Column
     private String city;
+
+    @Column
+    private String number;
+
+    @Column
+    String postalCode;
 }

@@ -23,7 +23,7 @@ public class CsvExportService {
         List<Car> cars = carRepository.findAll();
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
             for(Car car: cars){
-                csvPrinter.printRecord(car.getId(), car.getPalateNumber(), car.getReservoirFuel());
+                csvPrinter.printRecord(car.getId(), car.getPlateNumber(), car.getReservoirFuel());
             }
         }
         catch (IOException e) {

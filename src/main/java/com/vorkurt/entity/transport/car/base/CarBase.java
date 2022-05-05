@@ -12,10 +12,10 @@ public abstract class CarBase {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column
-    private String palateNumber;
+    private String plateNumber;
 
     @Column
     private String reservoirFuel;
@@ -23,4 +23,6 @@ public abstract class CarBase {
     @Column
     private float kgPerWeight;
 
+    @Column
+    private int numberPacks;
 }
