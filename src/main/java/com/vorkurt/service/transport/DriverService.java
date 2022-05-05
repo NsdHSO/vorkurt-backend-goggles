@@ -1,6 +1,5 @@
 package com.vorkurt.service.transport;
 
-import com.core.exception.EntityNotFound;
 import com.vorkurt.entity.address.Address;
 import com.vorkurt.entity.transport.car.request.CreateCarRequest;
 import com.vorkurt.entity.transport.pack.Pack;
@@ -77,96 +76,11 @@ public class DriverService {
         if (request.getCarCargo() != null) {
             for (CreateCarRequest carRequest : request.getCarCargo()
             ) {
-                Car car = new Car();
-                car.setKgPerWeight(carRequest.getKgPerWeight());
-                car.setPlateNumber(carRequest.getPlateNumber());
-                car.setReservoirFuel(carRequest.getReservoirFuel());
-                car.setDriver(newDriver);
+                Car car = _instantiateCar(newDriver, carRequest);
                 newPack = new ArrayList<>();
 
                 // Verified if user put the packs
-                if (carRequest.getPacks() != null) {
-                    for (Pack pack : carRequest.getPacks()) {
-
-                        // Verified if user put the consignee
-                        if(pack.getConsignee() !=null) {
-                            pack.setConsignee(
-                                    new Consignee(pack.getConsignee().getApartment(),
-                                            pack.getConsignee().getStreet(),
-                                            pack.getConsignee().getCity(),
-                                            pack.getConsignee().getNumber(),
-                                            pack.getConsignee().getPostalCode()));
-                        }else{
-                            pack.setConsignee(new Consignee());
-                        }
-//                        pack.setCarId(car);
-
-                        // Verified if user put description
-                        if (pack.getDescription() != null) {
-                            pack.setDescription(pack.getDescription());
-                        } else {
-                            pack.setDescription(new DescriptionImplementation());
-                        }
-
-                        // Verified if user put the type of pack
-                        if(pack.getTypeBox() != null){
-                            FormatPck auxFrmt = new FormatPck();
-                            auxFrmt.setTypePck(pack.getTypeBox().getTypePck());
-
-                            // Verified if user put the type of pack at box
-                            if(pack.getTypeBox().isBox()){
-                                auxFrmt.setBox(true);
-                                auxFrmt.setEnvelop(false);
-                            }
-                            // Verified if user put the type of pack at envelop type
-                            else  if(pack.getTypeBox().isEnvelop()){
-                                auxFrmt.setBox(false);
-                                auxFrmt.setEnvelop(true);
-                            }
-                            pack.setTypeBox(auxFrmt);
-                        }else{
-                            pack.setTypeBox(new FormatPck());
-                        }
-
-                        // Verified is true repayment
-                        if(pack.isRepayment()){
-                            pack.setRepayment(pack.isRepayment());
-                        }
-                        else{
-                            pack.setRepayment(false);
-                        }
-
-                        // Verified exists address
-                        if(pack.getPackAddress() !=null){
-                            pack.setPackAddress(pack.getPackAddress());
-                        }else{
-                            pack.setPackAddress(new PackAddress());
-                        }
-
-                        if(pack.getRefoundType()!=null){
-                            RefoundType refoundType = new RefoundType();
-                            refoundType.setToSender(true);
-                            if(pack.getRefoundType().isToRecipient()){
-                                refoundType.setToRecipient(true);
-                                refoundType.setToSender(false);
-                            }
-                            pack.setRefoundType(refoundType);
-                            this.refoundRepository.save(refoundType);
-                        }else{
-                            RefoundType refoundType = new RefoundType();
-                            pack.setRefoundType(refoundType);
-                            this.refoundRepository.save(refoundType);
-                        }
-
-                        pack.setCarId(car);
-                        // Saved in DB
-                        this.formatPckRepository.save(pack.getTypeBox());
-                        this.descriptionRepository.save(pack.getDescription());
-                        this.packageAddressRepository.save(pack.getPackAddress());
-                        this.packRepository.save(pack);
-                        newPack.add(pack);
-                    }
-                }
+                _setPackOfCar(newPack, carRequest);
                 car.setNumberPacks(newPack.size());
                 newCar.add(car);
                 car.setPacks(newPack);
@@ -177,9 +91,128 @@ public class DriverService {
         return newDriver;
     }
 
+    private void _setPackOfCar(List<Pack> newPack, CreateCarRequest carRequest) {
+        if (carRequest.getPacks() != null) {
+            for (Pack pack : carRequest.getPacks()) {
+
+                _setAndVerifiedPackRequest(pack);
+
+                newPack.add(pack);
+            }
+        }
+    }
+
+    private Car _instantiateCar(Driver newDriver, CreateCarRequest carRequest) {
+        Car car = new Car();
+        car.setKgPerWeight(carRequest.getKgPerWeight());
+        car.setPlateNumber(carRequest.getPlateNumber());
+        car.setReservoirFuel(carRequest.getReservoirFuel());
+        car.setDriver(newDriver);
+        return car;
+    }
+
+    private void _setAndVerifiedPackRequest(Pack pack) {
+        // Verified if user put the consignee
+        _setConsignee(pack);
+//                        pack.setCarId(car);
+
+        // Verified if user put description
+        _veriedDescription(pack);
+
+        // Verified if user put the type of pack
+        _setTypeBox(pack);
+
+        // Verified is true repayment
+        _setRepayment(pack);
+
+        // Verified exists address
+        _setAddress(pack);
+
+        _setRefoundType(pack);
+    }
+
+    private void _setTypeBox(Pack pack) {
+        if(pack.getTypeBox() != null){
+            _setTypePack(pack);
+        }else{
+            pack.setTypeBox(new FormatPck());
+        }
+    }
+
+    private void _setRefoundType(Pack pack) {
+        if(pack.getRefoundType()!=null){
+            RefoundType refoundType = new RefoundType();
+            refoundType.setToSender(true);
+            if(pack.getRefoundType().isToRecipient()){
+                refoundType.setToRecipient(true);
+                refoundType.setToSender(false);
+            }
+            pack.setRefoundType(refoundType);
+            this.refoundRepository.save(refoundType);
+        }else{
+            RefoundType refoundType = new RefoundType();
+            pack.setRefoundType(refoundType);
+            this.refoundRepository.save(refoundType);
+        }
+    }
+
+    private void _setAddress(Pack pack) {
+        if(pack.getPackAddress() !=null){
+            pack.setPackAddress(pack.getPackAddress());
+        }else{
+            pack.setPackAddress(new PackAddress());
+        }
+    }
+
+    private void _setRepayment(Pack pack) {
+        if(pack.isRepayment()){
+            pack.setRepayment(pack.isRepayment());
+        }
+        else{
+            pack.setRepayment(false);
+        }
+    }
+
+    private void _setTypePack(Pack pack) {
+        FormatPck auxFrmt = new FormatPck();
+        auxFrmt.setTypePck(pack.getTypeBox().getTypePck());
+
+        // Verified if user put the type of pack at box
+        if(pack.getTypeBox().isBox()){
+            auxFrmt.setBox(true);
+            auxFrmt.setEnvelop(false);
+        }
+        // Verified if user put the type of pack at envelop type
+        else  if(pack.getTypeBox().isEnvelop()){
+            auxFrmt.setBox(false);
+            auxFrmt.setEnvelop(true);
+        }
+        pack.setTypeBox(auxFrmt);
+    }
+
+    private void _veriedDescription(Pack pack) {
+        if (pack.getDescription() != null) {
+            pack.setDescription(pack.getDescription());
+        } else {
+            pack.setDescription(new DescriptionImplementation());
+        }
+    }
+
+    private void _setConsignee(Pack pack) {
+        if(pack.getConsignee() !=null) {
+            pack.setConsignee(
+                    new Consignee(pack.getConsignee().getApartment(),
+                            pack.getConsignee().getStreet(),
+                            pack.getConsignee().getCity(),
+                            pack.getConsignee().getNumber(),
+                            pack.getConsignee().getPostalCode()));
+        }else{
+            pack.setConsignee(new Consignee());
+        }
+    }
+
     public List<Driver> getDriverLastName(String number) {
-//        return driverRepository.findAllByLastName(number);
-        throw new EntityNotFound("Test ");
+        return driverRepository.findAllByLastName(number);
     }
 
 

@@ -22,7 +22,7 @@ public class CarRequest extends CarBase {
     private Driver driver;
 
     @Column
-    @OneToMany(mappedBy= "carId", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy= "car", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Pack> packs;
 
     public CarRequest (Car car){

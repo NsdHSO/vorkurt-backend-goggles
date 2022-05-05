@@ -21,7 +21,7 @@ public abstract class BaseDriver {
     @Column(name = "driver_license")
     private String driverLicense;
 
-    @OneToOne()
+    @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "address_id")
     private Address address;
 

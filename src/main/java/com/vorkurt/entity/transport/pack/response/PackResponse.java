@@ -23,8 +23,6 @@ public class PackResponse {
 
     private boolean repayment;
 
-    private Car car;
-
     public PackResponse(Pack pack){
         this.setConsignee(pack.getConsignee());
         this.setNote(pack.getDescription().getNote());
@@ -32,7 +30,5 @@ public class PackResponse {
         this.typeBox = pack.getTypeBox();
         this.repayment = pack.isRepayment();
         this.refoundType = pack.getRefoundType();
-        this.car = pack.getCarId();
     }
-
 }

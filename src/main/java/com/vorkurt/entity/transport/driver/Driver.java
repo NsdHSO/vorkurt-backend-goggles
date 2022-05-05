@@ -25,7 +25,6 @@ public class Driver extends BaseDriver {
 
     @Column
     @OneToMany(mappedBy = "driver")
-    @JsonManagedReference
     @ToString.Exclude
     private List<Car> cars;
 

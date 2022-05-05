@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +29,12 @@ public class ExceptionServerHandler extends ResponseEntityExceptionHandler {
     private ApplicationContext appContext;
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ExceptionResponse> dataConenction(Exception ex, WebRequest request) {
+    public ResponseEntity<ExceptionResponse> dataConenction(Exception ex, WebRequest request, HandlerMethod handlerMethod, HttpServletRequest requestPath) {
+        LOGGER.warn("Exception Handle " + handlerMethod.getMethod().getDeclaringClass());
         return new ResponseEntity<ExceptionResponse>(new ExceptionResponse.ExceptionBuilder(HttpStatus.INTERNAL_SERVER_ERROR,
-                "You introduce filed what not exists in DAO").title("Exception").instancePath(request.getContextPath()).build(),
+                "You entered a field that is not good for this case. :-) be carefull ").title("Exception")
+                .instancePath(request.getContextPath())
+                .URIType(handlerMethod.getMethod().getName()).instancePath(requestPath.getRequestURL().toString()).build(),
                 HttpStatus.OK);
     }
 

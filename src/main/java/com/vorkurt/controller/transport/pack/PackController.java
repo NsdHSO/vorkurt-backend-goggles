@@ -32,4 +32,10 @@ public class PackController {
         logger.debug("Method modified pack");
         return this.packService.modifiedPack(id, objModified);
     }
+
+    @GetMapping("{id}")
+    public List<PackResponse> getPackById(@PathVariable long id){
+        logger.debug("Method Get Pack By ID");
+        return this.packService.getPacksByCarId(id);
+    }
 }
