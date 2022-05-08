@@ -80,7 +80,7 @@ public class DriverService {
                 newPack = new ArrayList<>();
 
                 // Verified if user put the packs
-                _setPackOfCar(newPack, carRequest);
+                _setPackOfCar(newPack, carRequest, car);
                 car.setNumberPacks(newPack.size());
                 newCar.add(car);
                 car.setPacks(newPack);
@@ -91,12 +91,12 @@ public class DriverService {
         return newDriver;
     }
 
-    private void _setPackOfCar(List<Pack> newPack, CreateCarRequest carRequest) {
+    private void _setPackOfCar(List<Pack> newPack, CreateCarRequest carRequest, Car car) {
         if (carRequest.getPacks() != null) {
             for (Pack pack : carRequest.getPacks()) {
 
                 _setAndVerifiedPackRequest(pack);
-
+                pack.setCar(car);
                 newPack.add(pack);
             }
         }
@@ -114,7 +114,6 @@ public class DriverService {
     private void _setAndVerifiedPackRequest(Pack pack) {
         // Verified if user put the consignee
         _setConsignee(pack);
-//                        pack.setCarId(car);
 
         // Verified if user put description
         _veriedDescription(pack);
@@ -307,6 +306,7 @@ public class DriverService {
 
     public DriverResponse getById(long id) {
         Driver driver = driverRepository.getById(id);
+
         DriverResponse newDriver = new DriverResponse(driver);
         return newDriver;
     }

@@ -15,6 +15,7 @@ import java.util.List;
 @Table(name = "cars")
 @Getter
 @Setter
+@ToString
 public class Car extends CarBase {
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -22,7 +23,7 @@ public class Car extends CarBase {
     private Driver driver;
 
     @Column
-    @OneToMany(mappedBy= "car", fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy="car", fetch=FetchType.EAGER, cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JsonManagedReference
     @JsonIgnore
     private List<Pack> packs;
@@ -33,6 +34,7 @@ public class Car extends CarBase {
         this.setPlateNumber(car.getPlateNumber());
         this.setDriver(car.getDriver());
         this.setKgPerWeight(car.getKgPerWeight());
+        this.setPacks(car.getPacks());
 
     }
 
