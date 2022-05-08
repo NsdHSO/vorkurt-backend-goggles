@@ -33,6 +33,7 @@ public class Pack {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id")
     @JsonBackReference
+    @ToString.Exclude
     private Car car;
 
     @OneToOne(cascade = {CascadeType.PERSIST})
