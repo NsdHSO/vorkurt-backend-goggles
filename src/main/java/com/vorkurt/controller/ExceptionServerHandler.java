@@ -1,6 +1,7 @@
 package com.vorkurt.controller;
 
 import com.core.exception.ExceptionResponse;
+import io.netty.handler.codec.http.HttpUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpUtils;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -16,6 +16,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
     RetrieveDataFromUserInterceptor retrieveDataFromUserInterceptor;
 
+    @Autowired
+    private Request requestInterceptor;
+
     Logger LOGGER = LoggerFactory.getLogger(WebConfig.class);
 
     WebConfig(){
@@ -24,9 +27,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(...)
-//    ...
-//        registry.addInterceptor(getYourInterceptor());
+
+        registry.addInterceptor(requestInterceptor);
+
         registry.addInterceptor(retrieveDataFromUserInterceptor);
         // next two should be avoid -- tightly coupled and not very testable
         registry.addInterceptor(new RetrieveDataFromUserInterceptor());
