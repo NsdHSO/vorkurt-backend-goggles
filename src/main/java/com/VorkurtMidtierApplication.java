@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication()
-@ComponentScan({"com.vorkurt.controller", "com.vorkurt.service"})
+@ComponentScan({"com.vorkurt.controller", "com.vorkurt.service", "com.core"})
 @EntityScan({"com.vorkurt.entity",})
 @EnableJpaRepositories({"com.vorkurt.repository"})
 @EnableScheduling

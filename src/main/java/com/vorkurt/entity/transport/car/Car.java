@@ -38,4 +38,7 @@ public class Car extends CarBase {
 
     }
 
+    public void  addPacks(Pack pack){
+        this.packs.add(pack);
+    }
 }

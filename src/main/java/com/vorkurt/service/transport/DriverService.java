@@ -228,6 +228,10 @@ public class DriverService {
             driver.setLastName(based.getLastName());
         }
 
+        if(based.getCars() != null){
+            driver.setCars(based.getCars());
+        }
+
         this.driverRepository.save(driver);
         return driver;
     }
