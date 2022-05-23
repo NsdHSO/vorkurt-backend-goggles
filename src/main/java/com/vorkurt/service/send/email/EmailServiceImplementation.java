@@ -9,21 +9,24 @@ import java.util.Properties;
 @NoArgsConstructor
 public class EmailServiceImplementation {
 
-
     private EmailServiceImplementation(EmailServiceImplementationBuilder builder) {
     }
 
     public static class EmailServiceImplementationBuilder {
-//        @Value("${spring.main.username}"
-        private String from = "nechiforelsamuel@gmail.com";
+        private String from;
         private String to;
         private String host = "smtp.gmail.com";
         private Properties properties;
         private Session session;
-        private String password = "America1!23";
+        private String password;
         private MimeMessage message;
         private String title;
         private String body;
+
+        public EmailServiceImplementationBuilder setFrom(String from) {
+            this.from = from;
+            return this;
+        }
 
         public EmailServiceImplementationBuilder() {
         }
@@ -32,22 +35,26 @@ public class EmailServiceImplementation {
             this.to = to;
             return this;
         }
+
         public EmailServiceImplementationBuilder setHost(String host) {
             this.host = host;
             return this;
         }
 
-        public String build(){
-            EmailServiceImplementation email = new EmailServiceImplementation(this);
-            properties = setProperties();
-            session = new SessionService.SessionBuilderService(from,password,properties).build();
-            return new MimeMessageService.TransformerMessageBuilder(session).from(to).to(from).body(body).title(
-                    title).build();
-
-
+        public EmailServiceImplementationBuilder setPassword(String password) {
+            this.password = password;
+            return this;
         }
 
-        private Properties setProperties(){
+        public String build() {
+            EmailServiceImplementation email = new EmailServiceImplementation(this);
+            properties = setProperties();
+            session = new SessionService.SessionBuilderService(from, password, properties).build();
+            return new MimeMessageService.TransformerMessageBuilder(session).from(to).to(from).body(body).title(
+                    title).build();
+        }
+
+        private Properties setProperties() {
             Properties properties = System.getProperties();
 
             // Setup mail server
@@ -56,15 +63,14 @@ public class EmailServiceImplementation {
             properties.put("mail.smtp.ssl.enable", "true");
             properties.put("mail.smtp.auth", "true");
             return properties;
-
         }
 
-        public EmailServiceImplementationBuilder title(String titleMessage){
+        public EmailServiceImplementationBuilder title(String titleMessage) {
             this.title = titleMessage;
             return this;
         }
 
-        public EmailServiceImplementationBuilder body(String message){
+        public EmailServiceImplementationBuilder body(String message) {
             this.body = message;
             return this;
         }

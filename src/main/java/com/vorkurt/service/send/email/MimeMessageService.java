@@ -1,5 +1,8 @@
 package com.vorkurt.service.send.email;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -10,11 +13,12 @@ import javax.mail.internet.MimeMessage;
 public class MimeMessageService {
     private final MimeMessage message;
 
-    private MimeMessageService(TransformerMessageBuilder transformerMessageBuilder){
+    private MimeMessageService(TransformerMessageBuilder transformerMessageBuilder) {
         this.message = transformerMessageBuilder.message;
     }
 
-    public static class TransformerMessageBuilder{
+    public static class TransformerMessageBuilder {
+        Logger logger = LoggerFactory.getLogger(MimeMessageService.class);
         private final Session session;
         private MimeMessage message;
         private String from;
@@ -43,10 +47,10 @@ public class MimeMessageService {
                 // Now set the actual message
                 message.setText(body);
 
-                System.out.println("sending...");
+                this.logger.debug("sending...");
                 // Send message
                 Transport.send(message);
-                System.out.println("Sent message successfully....");
+                this.logger.debug("Sent message successfully....");
                 return "Sent message successfully....";
             } catch (MessagingException mex) {
                 mex.printStackTrace();
@@ -54,22 +58,22 @@ public class MimeMessageService {
             }
         }
 
-        public TransformerMessageBuilder from(String fromMessage){
+        public TransformerMessageBuilder from(String fromMessage) {
             this.from = fromMessage;
             return this;
         }
 
-        public TransformerMessageBuilder to(String toMessage){
+        public TransformerMessageBuilder to(String toMessage) {
             this.to = toMessage;
             return this;
         }
 
-        public TransformerMessageBuilder body(String message){
+        public TransformerMessageBuilder body(String message) {
             this.body = message;
             return this;
         }
 
-        public TransformerMessageBuilder title(String title){
+        public TransformerMessageBuilder title(String title) {
             this.title = title;
             return this;
         }
