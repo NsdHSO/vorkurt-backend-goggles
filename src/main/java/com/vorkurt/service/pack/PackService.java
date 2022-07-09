@@ -140,7 +140,11 @@ public class PackService {
 	 */
 	private void _setPackAddress(Pack objectPack, Pack pacDao) {
 		if (objectPack.getPackageAddress() != null) {
-			pacDao.setPackageAddress(objectPack.getPackageAddress());
+			pacDao.getPackageAddress().setCity(objectPack.getPackageAddress().getCity());
+			pacDao.getPackageAddress().setNumber(objectPack.getPackageAddress().getNumber());
+			pacDao.getPackageAddress().setPostalCode(objectPack.getPackageAddress().getPostalCode());
+			pacDao.getPackageAddress().setStreet(objectPack.getPackageAddress().getStreet());
+			
 		}
 	}
 
@@ -180,7 +184,11 @@ public class PackService {
 	 */
 	private void _setConsignee(Pack objectPack, Pack pacDao) {
 		if (objectPack.getConsignee() != null) {
-			pacDao.setConsignee(objectPack.getConsignee());
+			pacDao.getConsignee().setApartment(objectPack.getConsignee().getApartment());
+			pacDao.getConsignee().setCity(objectPack.getConsignee().getCity());
+			pacDao.getConsignee().setNumber(objectPack.getConsignee().getNumber());
+			pacDao.getConsignee().setPostalCode(objectPack.getConsignee().getPostalCode());
+			pacDao.getConsignee().setStreet(objectPack.getConsignee().getStreet());
 		}
 	}
 
