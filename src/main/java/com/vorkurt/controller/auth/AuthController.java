@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Value("${data.email.password}")
+    @Value("${spring.mail.password}")
     private String password;
 
     @Value("${spring.mail.username}")

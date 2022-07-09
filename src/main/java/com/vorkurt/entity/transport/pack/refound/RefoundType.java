@@ -11,12 +11,13 @@ import javax.persistence.*;
 @Data
 public class RefoundType {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+	@Id
+	@GeneratedValue
+	private long id;
 
-    @Column
-    private boolean toRecipient;
+	@Column
+	private boolean toRecipient;
 
-    @Column boolean toSender;
+	@Column
+	boolean toSender;
 }

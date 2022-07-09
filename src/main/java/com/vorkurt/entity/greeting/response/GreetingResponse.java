@@ -2,8 +2,11 @@ package com.vorkurt.entity.greeting.response;
 
 import com.vorkurt.entity.greeting.Greeting;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class GreetingResponse {
     private String message;
     private String messageFrom;

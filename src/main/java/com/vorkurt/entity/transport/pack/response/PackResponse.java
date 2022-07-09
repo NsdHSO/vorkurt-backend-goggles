@@ -11,24 +11,38 @@ import lombok.Data;
 @Data
 public class PackResponse {
 
-    private Consignee consignee;
+	private Long id;
 
-    private String note;
+	private Consignee consignee;
 
-    private FormatPck typeBox;
+	private String note;
 
-    private RefoundType refoundType;
+	private FormatPck typeBox;
 
-    private PackAddress packageAddress;
+	private RefoundType refoundType;
 
-    private boolean repayment;
+	private PackAddress packageAddress;
 
-    public PackResponse(Pack pack){
-        this.setConsignee(pack.getConsignee());
-        this.setNote(pack.getDescription().getNote());
-        this.packageAddress = pack.getPackAddress();
-        this.typeBox = pack.getTypeBox();
-        this.repayment = pack.isRepayment();
-        this.refoundType = pack.getRefoundType();
-    }
+	private String takeDate;
+
+	private boolean repayment;
+
+	public PackResponse(Pack pack) {
+		setResponse(pack);
+	}
+
+	private void setResponse(Pack pack) {
+		this.setId(pack.getId());
+		this.setConsignee(pack.getConsignee());
+		if (pack.getDescription() != null) {
+			this.setNote(pack.getDescription().getNote());
+		}else {
+			this.setNote(" ");
+		}
+		this.packageAddress = pack.getPackageAddress();
+		this.typeBox = pack.getTypeBox();
+		this.repayment = pack.isRepayment();
+		this.refoundType = pack.getRefoundType();
+		this.takeDate = pack.getTakenDate();
+	}
 }

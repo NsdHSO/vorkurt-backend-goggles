@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 src/main/resources/secrets/sec.properties
+src/main/resources/sec.properties
