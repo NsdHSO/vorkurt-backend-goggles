@@ -46,6 +46,7 @@ public class PackResponse {
 		this.repayment = pack.isRepayment();
 		this.refoundType = pack.getRefoundType();
 		this.takeDate = pack.getTakenDate();
-		this.statusPack = pack.getTogglePack().toString();
+		if(pack.getTogglePack() != null)
+			this.statusPack = pack.getTogglePack().toString();
 	}
 }
