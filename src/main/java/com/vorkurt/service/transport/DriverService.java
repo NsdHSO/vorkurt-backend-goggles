@@ -156,10 +156,10 @@ public class DriverService {
     }
 
     private void _setAddress(Pack pack) {
-        if(pack.getPackAddress() !=null){
-            pack.setPackAddress(pack.getPackAddress());
+        if(pack.getPackageAddress() !=null){
+            pack.setPackageAddress(pack.getPackageAddress());
         }else{
-            pack.setPackAddress(new PackAddress());
+            pack.setPackageAddress(new PackAddress());
         }
     }
 
