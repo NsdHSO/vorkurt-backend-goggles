@@ -115,23 +115,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>VorkurtMidtierApplication</mainClass>
-        			<layout>ZIP</layout>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-				</configuration>
-				<executions>
-	        		<execution>
-	            		<goals>
-	                		<goal>repackage</goal>
-	            		</goals>
-	        		</execution>
-	    		</executions>
-			</plugin>
+				</configuration>		</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
