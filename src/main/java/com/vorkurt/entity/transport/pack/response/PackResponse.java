@@ -26,6 +26,8 @@ public class PackResponse {
 	private String takeDate;
 
 	private boolean repayment;
+	
+	private String statusPack;
 
 	public PackResponse(Pack pack) {
 		setResponse(pack);
@@ -44,5 +46,6 @@ public class PackResponse {
 		this.repayment = pack.isRepayment();
 		this.refoundType = pack.getRefoundType();
 		this.takeDate = pack.getTakenDate();
+		this.statusPack = pack.getTogglePack().toString();
 	}
 }

@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.vorkurt.TogglePackage;
 import com.vorkurt.entity.transport.car.Car;
 import com.vorkurt.entity.transport.pack.Pack;
 import com.vorkurt.entity.transport.pack.response.PackResponse;
@@ -118,6 +118,20 @@ public class PackService {
 		return new PackResponse(objectPack);
 	}
 
+	/***
+	 * @param pacDao from database not return nothing but set object properties in
+	 *               pacDao
+	 */
+	public PackResponse togglePack(long id,TogglePackage toggle) {
+		Pack pacDao = this.packRepository.findById(id).orElseThrow(() -> new OpenApiResourceNotFoundException("Pack not found:: " + id));
+
+		pacDao.setTogglePack(TogglePackage.valueOf(toggle.toString().toUpperCase()));
+		
+		this.packRepository.save(pacDao);
+				
+		return new PackResponse(pacDao);
+	}
+	
 	/***
 	 * @param objectPack is from request
 	 * @param pacDao     from database not return nothing but set object properties

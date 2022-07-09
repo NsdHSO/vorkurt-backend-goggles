@@ -1,7 +1,5 @@
 package com.vorkurt.controller.transport.pack;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.vorkurt.TogglePackage;
 import com.vorkurt.entity.transport.pack.Pack;
 import com.vorkurt.entity.transport.pack.response.PackResponse;
 import com.vorkurt.entity.transport.pack.response.PackResponseData;
@@ -39,7 +38,8 @@ public class PackController {
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<Pack> modifiedPack(@PathVariable long id, @RequestBody Pack objModified, SessionStatus status) {
+	public ResponseEntity<Pack> modifiedPack(@PathVariable long id, @RequestBody Pack objModified,
+			SessionStatus status) {
 		logger.debug("Method modified pack");
 		return this.packService.modifiedPack(id, objModified, status);
 	}
@@ -48,12 +48,19 @@ public class PackController {
 	public PackResponse getPackById(@PathVariable long id) {
 		logger.debug("Method Get Pack By ID");
 		return this.packService.getPacksByCarId(id);
-		
+
 	}
 
 	@PostMapping()
 	public PackResponse addPackById(@RequestBody Pack newPach) {
 		logger.debug("Method Added pack");
 		return this.packService.addPack(newPach);
+	}
+
+	@PostMapping("{id}")
+	public PackResponse toggleAction(@PathVariable long id, @RequestBody TogglePackage toggle) {
+		logger.debug("Method Added pack");
+		return this.packService.togglePack(id, toggle);
+//		return this.packService.addPack();
 	}
 }

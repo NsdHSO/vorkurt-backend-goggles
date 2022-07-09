@@ -3,6 +3,7 @@ package com.vorkurt.entity.transport.pack;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.vorkurt.TogglePackage;
 import com.vorkurt.entity.transport.car.Car;
 import com.vorkurt.entity.transport.pack.format.FormatPck;
 import com.vorkurt.entity.transport.pack.refound.RefoundType;
@@ -71,5 +72,9 @@ public class Pack {
     @NonNull
     @Column
     private String finishDate;
+    
+    @NonNull
+    @Column
+    private TogglePackage togglePack;
     
 }
