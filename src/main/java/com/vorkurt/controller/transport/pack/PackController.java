@@ -45,7 +45,7 @@ public class PackController {
 	}
 
 	@GetMapping("{id}")
-	public List<PackResponse> getPackById(@PathVariable long id) {
+	public PackResponse getPackById(@PathVariable long id) {
 		logger.debug("Method Get Pack By ID");
 		return this.packService.getPacksByCarId(id);
 		

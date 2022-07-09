@@ -80,14 +80,13 @@ public class PackService {
 
 	}
 
-	public List<PackResponse> getPacksByCarId(Long carId) {
+	public PackResponse getPacksByCarId(Long carId) {
 		Car car = new Car();
 		car.setId(carId);
-		List<Pack> daoPacks = packRepository.findAllByCarId(car);
+		Pack daoPacks = packRepository.findById(carId).get();
+		
+		return new PackResponse(daoPacks);
 
-		return daoPacks.stream().peek(pack -> {
-			_setIsRepayment(!pack.isRepayment(), false, pack);
-		}).map(PackResponse::new).collect(Collectors.toList());
 	}
 
 	/***
